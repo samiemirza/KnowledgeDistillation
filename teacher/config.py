@@ -6,12 +6,13 @@ Configuration file for teacher model setup and activation capture.
 MODEL_NAME = "deepseek-ai/DeepSeek-R1-Distill-Llama-8B"
 
 # Data configuration
-BATCH_SIZE = 4
-MAX_SEQ_LENGTH = 512
+BATCH_SIZE = 2
+MAX_SEQ_LENGTH = 256
 
 # Layers to hook for activation capture
-# Adjust based on the model architecture (DeepSeek-R1-Distill-Llama-8B has 32 layers)
-LAYERS_TO_HOOK = [0, 8, 16, 24, 31]  # First, middle, and last layers
+# DeepSeek-R1-Distill-Llama-8B has 32 layers (0-31)
+# Hook every 4th layer for memory efficiency
+LAYERS_TO_HOOK = [0, 4, 8, 12, 16, 20, 24, 28, 31]  # 9 layers total
 
 # Output directory for activations
 ACTIVATION_DIR = "teacher/activations"
