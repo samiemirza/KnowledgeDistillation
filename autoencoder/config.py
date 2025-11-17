@@ -4,7 +4,7 @@ Configuration for Sparse Autoencoder training.
 
 # Model architecture
 ACTIVATION_DIM = 4096  # Hidden dimension of DeepSeek-R1-Distill-Llama-8B
-LATENT_DIM = 512  # Compressed latent dimension (8x compression)
+LATENT_DIM = 16384  # Sparse overcomplete dimension (4x upscaling)
 SPARSITY_COEFFICIENT = 1e-3  # L1 penalty weight for sparsity
 TIE_WEIGHTS = False  # Whether to tie encoder and decoder weights
 

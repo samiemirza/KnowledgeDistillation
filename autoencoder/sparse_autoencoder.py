@@ -19,9 +19,12 @@ class SparseAutoencoder(nn.Module):
     Architecture:
         Input (activation_dim) -> Encoder -> Latent (latent_dim) -> Decoder -> Output (activation_dim)
 
+    Note: For proper sparse autoencoders, latent_dim should be LARGER than activation_dim
+    to create an overcomplete representation where sparsity is meaningful.
+
     Args:
         activation_dim (int): Dimension of input activations (e.g., 4096 for LLaMA-8B)
-        latent_dim (int): Dimension of sparse latent representation
+        latent_dim (int): Dimension of sparse latent representation (should be > activation_dim, e.g., 16384)
         sparsity_coefficient (float): L1 penalty weight for sparsity
         tie_weights (bool): Whether to tie encoder and decoder weights (decoder = encoder.T)
     """
@@ -287,10 +290,10 @@ if __name__ == "__main__":
     # Test the sparse autoencoder
     print("Testing SparseAutoencoder...")
 
-    # Create a simple autoencoder
+    # Create a simple autoencoder with upscaling (latent_dim > activation_dim)
     ae = SparseAutoencoder(
         activation_dim=4096,
-        latent_dim=512,
+        latent_dim=16384,  # 4x upscaling for overcomplete representation
         sparsity_coefficient=1e-3
     )
 
