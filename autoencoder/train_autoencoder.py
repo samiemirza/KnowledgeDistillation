@@ -108,11 +108,12 @@ def train_autoencoder(activation_dir=None, num_epochs=None, device=None):
     print(f"Total parameters: {total_params:,}")
     print(f"Trainable parameters: {trainable_params:,}")
 
-    # Create optimizer
+    # Create optimizer (Adam with β1=0.9, β2=0.999 from paper)
     print("\n[3/5] Setting up optimizer...")
     optimizer = optim.Adam(
         model.parameters(),
         lr=config.LEARNING_RATE,
+        betas=(0.9, 0.999),
         weight_decay=config.WEIGHT_DECAY
     )
 
@@ -147,6 +148,10 @@ def train_autoencoder(activation_dir=None, num_epochs=None, device=None):
             # Backward pass
             optimizer.zero_grad()
             total_loss.backward()
+
+            # Gradient clipping (from paper Section 4.1)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), config.GRADIENT_CLIP_NORM)
+
             optimizer.step()
 
             # Track losses

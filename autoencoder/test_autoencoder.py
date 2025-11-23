@@ -37,15 +37,14 @@ def test_single_autoencoder():
 
     # Forward pass
     print("\nRunning forward pass...")
-    reconstructed, latent, sparsity_loss = ae(test_input)
+    reconstructed, latent = ae(test_input)
 
     print(f"✓ Forward pass successful!")
     print(f"  Latent shape: {latent.shape}")
     print(f"  Reconstructed shape: {reconstructed.shape}")
-    print(f"  Sparsity loss: {sparsity_loss.item():.6f}")
 
     # Compute losses
-    total_loss, recon_loss = ae.total_loss(test_input, reconstructed, sparsity_loss)
+    total_loss, recon_loss, sparsity_loss = ae.total_loss(test_input, reconstructed, latent)
     print(f"\nLosses:")
     print(f"  Reconstruction loss: {recon_loss.item():.6f}")
     print(f"  Sparsity loss: {sparsity_loss.item():.6f}")
@@ -109,7 +108,6 @@ def test_layerwise_autoencoder():
         print(f"  {layer_name}:")
         print(f"    Reconstructed: {result['reconstructed'].shape}")
         print(f"    Latent: {result['latent'].shape}")
-        print(f"    Sparsity loss: {result['sparsity_loss'].item():.6f}")
 
     # Compute total loss
     total_loss, loss_dict = model.compute_total_loss(test_activations, results)
